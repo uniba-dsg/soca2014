@@ -1,0 +1,66 @@
+--- origin.xml	Thu Sep 18 18:10:51 2014
++++ current.xml	Thu Sep 18 18:10:51 2014
+@@ -1,60 +1,63 @@
+ <process xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:ti="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="Scope-Variables-Overwriting" targetNamespace="http://dsg.wiai.uniba.de/betsy/activities/bpel/scopeVariablesOverwriting">
+     <import importType="http://schemas.xmlsoap.org/wsdl/" location="../TestInterface.wsdl" namespace="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface"></import>
+     <partnerLinks>
+         <partnerLink myRole="testInterfaceRole" name="MyRoleLink" partnerLinkType="ti:TestInterfacePartnerLinkType"></partnerLink>
+     </partnerLinks>
+     <scope name="Scope">
+         <variables>
+             <variable messageType="ti:executeProcessSyncResponse" name="ReplyData"></variable>
+             <variable messageType="ti:executeProcessSyncRequest" name="InitData"></variable>
+             <variable name="Value" type="xs:integer"></variable>
+         </variables>
+         <sequence>
+             <receive createInstance="yes" name="InitialReceive" operation="startProcessSync" partnerLink="MyRoleLink" portType="ti:TestInterfacePortType" variable="InitData"></receive>
+ 
+             <assign name="InitReplyData">
+                 <copy>
+                     <from>0</from>
+                     <to part="outputPart" variable="ReplyData"></to>
+                 </copy>
+             </assign>
+ 
+ 
+             <assign name="InitValue">
+                 <copy>
+                     <from>1</from>
+                     <to variable="Value"></to>
+                 </copy>
+             </assign>
+ 
+             <scope name="InnerScope">
+                 <variables>
+                     <variable name="Value" type="xs:integer"></variable>
+                 </variables>
+                 <sequence>
+                     <assign name="ReInitValue">
+                         <copy>
+                             <from>2</from>
+                             <to variable="Value"></to>
+                         </copy>
+                     </assign>
+                     <assign name="InnerAssignReplyData">
+                         <copy>
+                             <from>$Value + $ReplyData.outputPart</from>
+                             <to part="outputPart" variable="ReplyData"></to>
+                         </copy>
+                     </assign>
+                 </sequence>
+             </scope>
++            <scope name="InnerScope">
++                <empty></empty>
++            </scope>
+ 
+             <assign name="AssignReplyData">
+                 <copy>
+                     <from>$Value + $ReplyData.outputPart</from>
+                     <to part="outputPart" variable="ReplyData"></to>
+                 </copy>
+             </assign>
+ 
+             <reply name="ReplyToInitialReceive" operation="startProcessSync" partnerLink="MyRoleLink" portType="ti:TestInterfacePortType" variable="ReplyData"></reply>
+         </sequence>
+     </scope>
+ </process>

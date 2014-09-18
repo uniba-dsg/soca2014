@@ -1,0 +1,64 @@
+--- origin.xml	Thu Sep 18 18:10:39 2014
++++ current.xml	Thu Sep 18 18:10:39 2014
+@@ -1,47 +1,49 @@
+ <process xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:ti="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="While-Flow" targetNamespace="http://dsg.wiai.uniba.de/betsy/activities/bpel/whileFlow">
+     <import importType="http://schemas.xmlsoap.org/wsdl/" location="../TestInterface.wsdl" namespace="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface"></import>
+     <partnerLinks>
+         <partnerLink myRole="testInterfaceRole" name="MyRoleLink" partnerLinkType="ti:TestInterfacePartnerLinkType"></partnerLink>
+     </partnerLinks>
+     <variables>
+         <variable name="Counter" type="xsd:int"></variable>
+         <variable messageType="ti:executeProcessSyncResponse" name="ReplyData"></variable>
+         <variable messageType="ti:executeProcessSyncRequest" name="InitData"></variable>
+     </variables>
+     <sequence>
+         <receive createInstance="yes" name="InitialReceive" operation="startProcessSync" partnerLink="MyRoleLink" portType="ti:TestInterfacePortType" variable="InitData"></receive>
+         <assign name="InitializeLoopCounter">
+             <copy>
+                 <from>0</from>
+                 <to variable="Counter"></to>
+             </copy>
+         </assign>
+-        <while name="While">
+-            <condition>$Counter &lt; $InitData.inputPart</condition>
+-            <flow name="Flow">
++        <flow>
+                 <links>
+                     <link name="FromFirstToSecond"></link>
+                 </links>
+-                <assign name="SetBranch2">
+-                    <targets>
+-                        <target linkName="FromFirstToSecond"></target>
+-                    </targets>
+-                    <copy>
+-                        <from>$Counter</from>
+-                        <to part="outputPart" variable="ReplyData"></to>
+-                    </copy>
+-                </assign>
++            <while name="While">
++                <condition>$Counter &lt; $InitData.inputPart</condition>
++                <flow name="Flow">
+                 <assign name="SetBranch1">
+                     <sources>
+                         <source linkName="FromFirstToSecond"></source>
+                     </sources>
+                     <copy>
+                         <from>$Counter + 1</from>
+                         <to variable="Counter"></to>
+                     </copy>
+                 </assign>
+             </flow>
+         </while>
++            <assign name="SetBranch2">
++                <targets>
++                    <target linkName="FromFirstToSecond"></target>
++                </targets>
++                <copy>
++                    <from>$Counter</from>
++                    <to part="outputPart" variable="ReplyData"></to>
++                </copy>
++            </assign>
++        </flow>
+         <reply name="ReplyToInitialReceive" operation="startProcessSync" partnerLink="MyRoleLink" portType="ti:TestInterfacePortType" variable="ReplyData"></reply>
+     </sequence>
+ </process>

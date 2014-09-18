@@ -1,0 +1,106 @@
+--- origin.xml	Thu Sep 18 18:10:50 2014
++++ current.xml	Thu Sep 18 18:10:50 2014
+@@ -1,102 +1,102 @@
+ <process xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:ti="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface" name="Scope-Isolated" targetNamespace="http://dsg.wiai.uniba.de/betsy/activities/bpel/scopeIsolated">
+     <import importType="http://schemas.xmlsoap.org/wsdl/" location="../TestInterface.wsdl" namespace="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface"></import>
+     <partnerLinks>
+         <partnerLink myRole="testInterfaceRole" name="MyRoleLink" partnerLinkType="ti:TestInterfacePartnerLinkType"></partnerLink>
+     </partnerLinks>
+     <variables>
+         <variable messageType="ti:executeProcessSyncRequest" name="InitData"></variable>
+         <variable messageType="ti:executeProcessSyncResponse" name="ReplyData"></variable>
+     </variables>
+     <sequence name="Sequence">
+          <receive createInstance="yes" name="Receive" operation="startProcessSync" partnerLink="MyRoleLink" portType="ti:TestInterfacePortType" variable="InitData"></receive>
+         <assign name="InitializeReplyData">
+             <copy>
+                 <from part="inputPart" variable="InitData"></from>
+                 <to part="outputPart" variable="ReplyData"></to>
+             </copy>
+         </assign>
+         <flow name="Flow">
+             <scope isolated="yes" name="Scope1">
+                 <assign name="ConcurrentWrite1">
+                     <copy>
+                         <from>$ReplyData.outputPart +1</from>
+                         <to part="outputPart" variable="ReplyData"></to>
+                     </copy>
+                 </assign>
+             </scope>
+-            <scope isolated="yes" name="Scope2">
++            <scope isolated="yes" name="Scope1">
+                 <assign name="ConcurrentWrite2">
+                     <copy>
+                         <from>$ReplyData.outputPart +1</from>
+                         <to part="outputPart" variable="ReplyData"></to>
+                     </copy>
+                 </assign>
+             </scope>
+             <scope isolated="yes" name="Scope3">
+                 <assign name="ConcurrentWrite3">
+                     <copy>
+                         <from>$ReplyData.outputPart +1</from>
+                         <to part="outputPart" variable="ReplyData"></to>
+                     </copy>
+                 </assign>
+             </scope>
+             <scope isolated="yes" name="Scope4">
+                 <assign name="ConcurrentWrite4">
+                     <copy>
+                         <from>$ReplyData.outputPart +1</from>
+                         <to part="outputPart" variable="ReplyData"></to>
+                     </copy>
+                 </assign>
+             </scope>
+             <scope isolated="yes" name="Scope5">
+                 <assign name="ConcurrentWrite5">
+                     <copy>
+                         <from>$ReplyData.outputPart +1</from>
+                         <to part="outputPart" variable="ReplyData"></to>
+                     </copy>
+                 </assign>
+             </scope>
+             <scope isolated="yes" name="Scope6">
+                 <assign name="ConcurrentWrite6">
+                     <copy>
+                         <from>$ReplyData.outputPart +1</from>
+                         <to part="outputPart" variable="ReplyData"></to>
+                     </copy>
+                 </assign>
+             </scope>
+             <scope isolated="yes" name="Scope7">
+                 <assign name="ConcurrentWrite7">
+                     <copy>
+                         <from>$ReplyData.outputPart +1</from>
+                         <to part="outputPart" variable="ReplyData"></to>
+                     </copy>
+                 </assign>
+             </scope>
+             <scope isolated="yes" name="Scope8">
+                 <assign name="ConcurrentWrite8">
+                     <copy>
+                         <from>$ReplyData.outputPart +1</from>
+                         <to part="outputPart" variable="ReplyData"></to>
+                     </copy>
+                 </assign>
+             </scope>
+             <scope isolated="yes" name="Scope9">
+                 <assign name="ConcurrentWrite9">
+                     <copy>
+                         <from>$ReplyData.outputPart +1</from>
+                         <to part="outputPart" variable="ReplyData"></to>
+                     </copy>
+                 </assign>
+             </scope>
+             <scope isolated="yes" name="Scope10">
+                 <assign name="ConcurrentWrite10">
+                     <copy>
+                         <from>$ReplyData.outputPart +1</from>
+                         <to part="outputPart" variable="ReplyData"></to>
+                     </copy>
+                 </assign>
+             </scope>
+         </flow>
+         <reply name="Reply" operation="startProcessSync" partnerLink="MyRoleLink" portType="ti:TestInterfacePortType" variable="ReplyData"></reply>
+     </sequence>
+ </process>

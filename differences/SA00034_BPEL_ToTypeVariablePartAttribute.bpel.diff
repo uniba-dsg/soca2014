@@ -1,0 +1,32 @@
+--- origin.xml	Thu Sep 18 18:09:59 2014
++++ current.xml	Thu Sep 18 18:09:59 2014
+@@ -1,28 +1,28 @@
+ <process xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:months="http://dsg.wiai.uniba.de/betsy/xsd/months" xmlns:ti="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface" name="Assign-Validate" targetNamespace="http://dsg.wiai.uniba.de/betsy/activities/bpel/assignValidate">
+     <import importType="http://schemas.xmlsoap.org/wsdl/" location="../TestInterface.wsdl" namespace="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface"></import>
+     <import importType="http://www.w3.org/2001/XMLSchema" location="months.xsd" namespace="http://dsg.wiai.uniba.de/betsy/xsd/months"></import>
+     <partnerLinks>
+         <partnerLink myRole="testInterfaceRole" name="MyRoleLink" partnerLinkType="ti:TestInterfacePartnerLinkType"></partnerLink>
+     </partnerLinks>
+     <variables>
+         <variable messageType="ti:executeProcessSyncResponse" name="ReplyData"></variable>
+         <variable messageType="ti:executeProcessSyncRequest" name="InitData"></variable>
+         <variable name="ToBeValidated" type="months:monthInteger"></variable>
+     </variables>
+     <sequence>
+         <receive createInstance="yes" name="InitialReceive" operation="startProcessSync" partnerLink="MyRoleLink" portType="ti:TestInterfacePortType" variable="InitData"></receive>
+         <assign name="AssignReplyData">
+             <copy>
+                 <from part="inputPart" variable="InitData"></from>
+                 <to part="outputPart" variable="ReplyData"></to>
+             </copy>
+         </assign>
+         <assign name="ValidateOnAssign" validate="yes">
+             <copy>
+                 <from part="outputPart" variable="ReplyData"></from>
+-                <to variable="ToBeValidated"></to>
++                <to part="noPart" variable="ToBeValidated"></to>
+             </copy>
+         </assign>
+         <reply name="ReplyToInitialReceive" operation="startProcessSync" partnerLink="MyRoleLink" portType="ti:TestInterfacePortType" variable="ReplyData"></reply>
+     </sequence>
+ </process>

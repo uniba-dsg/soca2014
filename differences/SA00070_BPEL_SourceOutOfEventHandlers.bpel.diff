@@ -1,0 +1,80 @@
+--- origin.xml	Thu Sep 18 18:10:37 2014
++++ current.xml	Thu Sep 18 18:10:38 2014
+@@ -1,56 +1,65 @@
+ <process xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:ti="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface" name="Scope-EventHandlers-InitSync" targetNamespace="http://dsg.wiai.uniba.de/betsy/activities/bpel/scopeEventHandlers-sync">
+     <import importType="http://schemas.xmlsoap.org/wsdl/" location="../TestInterface.wsdl" namespace="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface"></import>
+     <partnerLinks>
+         <partnerLink myRole="testInterfaceRole" name="MyRoleLink" partnerLinkType="ti:TestInterfacePartnerLinkType"></partnerLink>
+     </partnerLinks>
+     <variables>
+         <variable messageType="ti:executeProcessSyncResponse" name="replyData"></variable>
+         <variable messageType="ti:executeProcessSyncRequest" name="InitData"></variable>
+         <variable messageType="ti:executeProcessSyncRequest" name="InitData2"></variable>
+     </variables>
+ 
+     <correlationSets>
+         <correlationSet name="CorrelationSet" properties="ti:correlationId"></correlationSet>
+     </correlationSets>
+     <sequence>
+         <receive createInstance="yes" name="InitialReceive" operation="startProcessSync" partnerLink="MyRoleLink" portType="ti:TestInterfacePortType" variable="InitData">
+             <correlations>
+                 <correlation initiate="yes" set="CorrelationSet"></correlation>
+             </correlations>
+         </receive>
+         <assign name="AssignReplyData">
+             <copy>
+                 <from part="inputPart" variable="InitData"></from>
+                 <to part="outputPart" variable="replyData"></to>
+             </copy>
+         </assign>
+         <reply name="CorrelatedReply" operation="startProcessSync" partnerLink="MyRoleLink" portType="ti:TestInterfacePortType" variable="replyData"></reply>
++        <flow>
++            <links>
++                <link name="FromFirstToSecond"></link>
++            </links>
+         <scope name="OuterScope">
+             <eventHandlers>
+                 <onEvent messageType="ti:executeProcessSyncRequest" operation="startProcessSync" partnerLink="MyRoleLink" portType="ti:TestInterfacePortType" variable="InitDataSync">
+                     <correlations>
+                         <correlation initiate="no" set="CorrelationSet"></correlation>
+                     </correlations>
+-
+                     <scope name="Scope">
+-                        <sequence name="Sequence">
+-                            <assign name="AssignReplyData">
+-                                <copy>
+-                                    <from>$InitDataSync.inputPart + $replyData.outputPart</from>
+-                                    <to part="outputPart" variable="replyData"></to>
+-                                </copy>
+-                            </assign>
+-
+-                            <reply name="CorrelatedReply2" operation="startProcessSync" partnerLink="MyRoleLink" portType="ti:TestInterfacePortType" variable="replyData"></reply>
+-                        </sequence>
++                            <flow name="Flow">
++                                <reply name="CorrelatedReply2" operation="startProcessSync" partnerLink="MyRoleLink" portType="ti:TestInterfacePortType" variable="replyData">
++                                    <targets>
++                                        <target linkName="FromFirstToSecond"></target>
++                                    </targets>
++                                </reply>
++                            </flow>
+                     </scope>
+                 </onEvent>
+             </eventHandlers>
+ 
+             <wait name="WaitFor10Seconds">
+                 <for>'P0Y0M0DT0H0M10.0S'</for>
+             </wait>
+         </scope>
+-
++            <assign name="AssignReplyData">
++                <sources>
++                    <source linkName="FromFirstToSecond"></source>
++                </sources>
++                <copy>
++                    <from>$InitDataSync.inputPart + $replyData.outputPart</from>
++                    <to part="outputPart" variable="replyData"></to>
++                </copy>
++            </assign>
++        </flow>
+     </sequence>
+ </process>

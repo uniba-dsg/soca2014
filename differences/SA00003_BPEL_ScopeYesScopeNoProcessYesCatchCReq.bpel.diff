@@ -1,0 +1,69 @@
+--- origin.xml	Thu Sep 18 18:09:02 2014
++++ current.xml	Thu Sep 18 18:09:02 2014
+@@ -1,60 +1,63 @@
+-<process xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:ti="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface" name="Scope-TerminationHandlers" targetNamespace="http://dsg.wiai.uniba.de/betsy/activities/bpel/scopeTerminationHandlers">
++<process xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:ti="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface" exitOnStandardFault="yes" name="Scope-TerminationHandlers" targetNamespace="http://dsg.wiai.uniba.de/betsy/activities/bpel/scopeTerminationHandlers">
+     <import importType="http://schemas.xmlsoap.org/wsdl/" location="../TestInterface.wsdl" namespace="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface"></import>
+     <partnerLinks>
+         <partnerLink myRole="testInterfaceRole" name="MyRoleLink" partnerLinkType="ti:TestInterfacePartnerLinkType"></partnerLink>
+     </partnerLinks>
+     <variables>
+         <variable messageType="ti:executeProcessSyncResponse" name="ReplyData"></variable>
+         <variable messageType="ti:executeProcessSyncRequest" name="InitData"></variable>
+     </variables>
+-    <scope name="Scope">
++    <scope exitOnStandardFault="no" name="Scope">
+         <sequence>
+             <receive createInstance="yes" name="InitialReceive" operation="startProcessSync" partnerLink="MyRoleLink" portType="ti:TestInterfacePortType" variable="InitData"></receive>
+             <assign name="AssignReplyData">
+                 <copy>
+                     <from part="inputPart" variable="InitData"></from>
+                     <to part="outputPart" variable="ReplyData"></to>
+                 </copy>
+             </assign>
+ 
+-            <scope>
++            <scope exitOnStandardFault="yes">
+ 
+                 <faultHandlers>
++                    <catch faultName="bpel:conflictingRequest">
++                        <compensate name="Compensate"></compensate>
++                    </catch>
+                     <catchAll>
+                         <empty></empty>
+                     </catchAll>
+                 </faultHandlers>
+ 
+                     <flow>
+                         <scope>
+                             <terminationHandler>
+                                 <sequence>
+                                     <assign name="AssignTerminationReplyData">
+                                         <copy>
+                                             <from>-1</from>
+                                             <to part="outputPart" variable="ReplyData"></to>
+                                         </copy>
+                                     </assign>
+                                 </sequence>
+                             </terminationHandler>
+                             <wait>
+                                 <for>'PT2.0S'</for>
+                             </wait>
+                         </scope>
+                         <scope>
+                             <sequence>
+                                 <wait>
+                                     <for>'PT0.01S'</for>
+                                 </wait>
+                                 <throw faultName="bpel:selectionFault"></throw>
+                             </sequence>
+                         </scope>
+                     </flow>
+ 
+             </scope>
+ 
+             <reply name="ReplyToInitialReceive" operation="startProcessSync" partnerLink="MyRoleLink" portType="ti:TestInterfacePortType" variable="ReplyData"></reply>
+ 
+         </sequence>
+     </scope>
+ </process>

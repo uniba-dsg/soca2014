@@ -1,0 +1,36 @@
+--- origin.xml	Thu Sep 18 18:09:35 2014
++++ current.xml	Thu Sep 18 18:09:35 2014
+@@ -1,32 +1,33 @@
+ <process xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:ti="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface" xmlns:tp="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testpartner" name="Scope-PartnerLinks" targetNamespace="http://dsg.wiai.uniba.de/betsy/activities/bpel/scopePartnerLinks">
+     <import importType="http://schemas.xmlsoap.org/wsdl/" location="../TestInterface.wsdl" namespace="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface"></import>
+     <import importType="http://schemas.xmlsoap.org/wsdl/" location="../TestPartner.wsdl" namespace="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testpartner"></import>
+     <partnerLinks>
+         <partnerLink myRole="testInterfaceRole" name="MyRoleLink" partnerLinkType="ti:TestInterfacePartnerLinkType"></partnerLink>
+     </partnerLinks>
+     <variables>
+         <variable messageType="ti:executeProcessSyncResponse" name="ReplyData"></variable>
+         <variable messageType="ti:executeProcessSyncRequest" name="InitData"></variable>
+         <variable messageType="tp:executeProcessAsyncRequest" name="PartnerInitData"></variable>
+     </variables>
+     <scope name="Scope">
+         <partnerLinks>
+             <partnerLink name="TestPartnerLink" partnerLinkType="tp:TestPartnerLinkType" partnerRole="testPartnerRole"></partnerLink>
++            <partnerLink name="TestPartnerLink" partnerLinkType="tp:TestPartnerLinkType" partnerRole="testPartnerRole"></partnerLink>
+         </partnerLinks>
+         <sequence>
+             <receive createInstance="yes" name="InitialReceive" operation="startProcessSync" partnerLink="MyRoleLink" portType="ti:TestInterfacePortType" variable="InitData"></receive>
+             <assign name="AssignReplyData">
+                 <copy>
+                     <from part="inputPart" variable="InitData"></from>
+                     <to part="outputPart" variable="ReplyData"></to>
+                 </copy>
+                 <copy>
+                     <from part="inputPart" variable="InitData"></from>
+                     <to part="inputPart" variable="PartnerInitData"></to>
+                 </copy>
+             </assign>
+             <invoke inputVariable="PartnerInitData" name="InvokePartner" operation="startProcessAsync" partnerLink="TestPartnerLink" portType="tp:TestPartnerPortType"></invoke>
+             <reply name="ReplyToInitialReceive" operation="startProcessSync" partnerLink="MyRoleLink" portType="ti:TestInterfacePortType" variable="ReplyData"></reply>
+         </sequence>
+     </scope>
+ </process>

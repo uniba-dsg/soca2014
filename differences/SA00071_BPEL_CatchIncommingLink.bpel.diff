@@ -1,0 +1,48 @@
+--- origin.xml	Thu Sep 18 18:10:40 2014
++++ current.xml	Thu Sep 18 18:10:40 2014
+@@ -1,39 +1,39 @@
+ <process xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:ti="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface" name="Scope-FaultHandlers-OutboundLink" targetNamespace="http://dsg.wiai.uniba.de/betsy/activities/bpel/scopeFaultHandlersOutboundLink">
+     <import importType="http://schemas.xmlsoap.org/wsdl/" location="../TestInterface.wsdl" namespace="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface"></import>
+     <partnerLinks>
+         <partnerLink myRole="testInterfaceRole" name="MyRoleLink" partnerLinkType="ti:TestInterfacePartnerLinkType"></partnerLink>
+     </partnerLinks>
+     <variables>
+         <variable messageType="ti:executeProcessSyncResponse" name="ReplyData"></variable>
+         <variable messageType="ti:executeProcessSyncRequest" name="InitData"></variable>
+     </variables>
+     <flow>
+         <links>
+             <link name="OutboundLink"></link>
+         </links>
+         <scope name="Scope">
+             <faultHandlers>
+                 <catch faultName="bpel:completionConditionFailure">
+                     <assign name="AssignReplyData">
+-                        <sources>
+-                            <source linkName="OutboundLink"></source>
+-                        </sources>
++                        <targets>
++                            <target linkName="OutboundLink"></target>
++                        </targets>
+                         <copy>
+                             <from part="inputPart" variable="InitData"></from>
+                             <to part="outputPart" variable="ReplyData"></to>
+                         </copy>
+                     </assign>
+                 </catch>
+             </faultHandlers>
+             <sequence>
+                 <receive createInstance="yes" name="InitialReceive" operation="startProcessSync" partnerLink="MyRoleLink" portType="ti:TestInterfacePortType" variable="InitData"></receive>
+                 <throw faultName="bpel:completionConditionFailure" name="Throw"></throw>
+             </sequence>
+         </scope>
+         <reply name="ReplyToInitialReceive" operation="startProcessSync" partnerLink="MyRoleLink" portType="ti:TestInterfacePortType" variable="ReplyData">
+-            <targets>
+-                <target linkName="OutboundLink"></target>
+-            </targets>
++            <sources>
++                <source linkName="OutboundLink"></source>
++            </sources>
+         </reply>
+     </flow>
+ </process>

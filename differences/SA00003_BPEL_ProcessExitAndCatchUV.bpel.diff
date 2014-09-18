@@ -1,0 +1,39 @@
+--- origin.xml	Thu Sep 18 18:08:13 2014
++++ current.xml	Thu Sep 18 18:08:13 2014
+@@ -1,32 +1,35 @@
+-<process xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:ti="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface" name="Scope-Compensate" targetNamespace="http://dsg.wiai.uniba.de/betsy/activities/bpel/scopeCompensate">
++<process xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:ti="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface" exitOnStandardFault="yes" name="Scope-Compensate" targetNamespace="http://dsg.wiai.uniba.de/betsy/activities/bpel/scopeCompensate">
+     <import importType="http://schemas.xmlsoap.org/wsdl/" location="../TestInterface.wsdl" namespace="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface"></import>
+     <partnerLinks>
+         <partnerLink myRole="testInterfaceRole" name="MyRoleLink" partnerLinkType="ti:TestInterfacePartnerLinkType"></partnerLink>
+     </partnerLinks>
+     <variables>
+         <variable messageType="ti:executeProcessSyncResponse" name="ReplyData"></variable>
+         <variable messageType="ti:executeProcessSyncRequest" name="InitData"></variable>
+     </variables>
+     <faultHandlers>
++        <catch faultName="bpel:uninitializedVariable">
++            <compensate name="Compensate"></compensate>
++        </catch>
+         <catchAll>
+             <compensate name="Compensate"></compensate>
+         </catchAll>
+     </faultHandlers>
+     <sequence name="Sequence">
+         <scope name="Scope">
+             <compensationHandler>
+                 <reply name="ReplyToInitialReceive" operation="startProcessSync" partnerLink="MyRoleLink" portType="ti:TestInterfacePortType" variable="ReplyData"></reply>
+             </compensationHandler>
+             <sequence>
+                 <receive createInstance="yes" name="InitialReceive" operation="startProcessSync" partnerLink="MyRoleLink" portType="ti:TestInterfacePortType" variable="InitData"></receive>
+                 <assign name="AssignReplyData">
+                     <copy>
+                         <from part="inputPart" variable="InitData"></from>
+                         <to part="outputPart" variable="ReplyData"></to>
+                     </copy>
+                 </assign>
+             </sequence>
+         </scope>
+         <throw faultName="bpel:completionConditionFailure" name="Throw"></throw>
+     </sequence>
+ </process>
