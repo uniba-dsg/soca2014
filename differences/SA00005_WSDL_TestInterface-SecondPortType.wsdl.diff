@@ -1,5 +1,5 @@
---- origin.xml	Thu Sep 18 18:07:58 2014
-+++ current.xml	Thu Sep 18 18:07:58 2014
+--- origin.xml	Thu Oct  2 16:36:09 2014
++++ current.xml	Thu Oct  2 16:36:09 2014
 @@ -1,95 +1,97 @@
  <definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:plink="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="TestInterface" targetNamespace="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface">
  

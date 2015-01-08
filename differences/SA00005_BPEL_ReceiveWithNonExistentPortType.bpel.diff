@@ -1,5 +1,5 @@
---- origin.xml	Thu Sep 18 18:09:17 2014
-+++ current.xml	Thu Sep 18 18:09:17 2014
+--- origin.xml	Thu Oct  2 16:36:58 2014
++++ current.xml	Thu Oct  2 16:36:58 2014
 @@ -1,12 +1,12 @@
  <!-- Hard to verify that this actually works (as there is no response). However, it is an isolated test case and if we add additional synchronous
          operations, we need correlations and such and do no longer test the receive in an isolated fashion. To sum up: The test case is fine as is.-->

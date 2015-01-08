@@ -1,5 +1,5 @@
---- origin.xml	Thu Sep 18 18:10:47 2014
-+++ current.xml	Thu Sep 18 18:10:47 2014
+--- origin.xml	Thu Oct  2 16:37:55 2014
++++ current.xml	Thu Oct  2 16:37:55 2014
 @@ -1,50 +1,50 @@
  <process xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:ti="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface" xmlns:tns="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="Scope-EventHandlers-Parts" targetNamespace="http://dsg.wiai.uniba.de/betsy/activities/bpel/scopeEventHandlersParts">
      <!-- xmlns:tns is REQUIRED for CoreBPEL which needs this namespace for making TempInt explicit -->

@@ -1,5 +1,5 @@
---- origin.xml	Thu Sep 18 18:09:25 2014
-+++ current.xml	Thu Sep 18 18:09:25 2014
+--- origin.xml	Thu Oct  2 16:37:04 2014
++++ current.xml	Thu Oct  2 16:37:04 2014
 @@ -1,37 +1,37 @@
  <process xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:ti="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface" name="Pick-Correlations-InitAsync" targetNamespace="http://dsg.wiai.uniba.de/betsy/activities/bpel/pickCorrelations">
      <import importType="http://schemas.xmlsoap.org/wsdl/" location="../TestInterface.wsdl" namespace="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface"></import>

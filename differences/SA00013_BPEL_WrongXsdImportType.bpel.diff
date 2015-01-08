@@ -1,5 +1,5 @@
---- origin.xml	Thu Sep 18 18:09:28 2014
-+++ current.xml	Thu Sep 18 18:09:28 2014
+--- origin.xml	Thu Oct  2 16:37:06 2014
++++ current.xml	Thu Oct  2 16:37:06 2014
 @@ -1,28 +1,28 @@
  <process xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:months="http://dsg.wiai.uniba.de/betsy/xsd/months" xmlns:ti="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface" name="Assign-Validate" targetNamespace="http://dsg.wiai.uniba.de/betsy/activities/bpel/assignValidate">
      <import importType="http://schemas.xmlsoap.org/wsdl/" location="../TestInterface.wsdl" namespace="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface"></import>

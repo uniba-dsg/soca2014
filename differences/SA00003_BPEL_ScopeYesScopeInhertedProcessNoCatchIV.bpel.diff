@@ -1,5 +1,5 @@
---- origin.xml	Thu Sep 18 18:08:48 2014
-+++ current.xml	Thu Sep 18 18:08:48 2014
+--- origin.xml	Thu Oct  2 16:36:41 2014
++++ current.xml	Thu Oct  2 16:36:41 2014
 @@ -1,60 +1,63 @@
 -<process xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:ti="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface" name="Scope-TerminationHandlers" targetNamespace="http://dsg.wiai.uniba.de/betsy/activities/bpel/scopeTerminationHandlers">
 +<process xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:ti="http://dsg.wiai.uniba.de/betsy/activities/wsdl/testinterface" exitOnStandardFault="no" name="Scope-TerminationHandlers" targetNamespace="http://dsg.wiai.uniba.de/betsy/activities/bpel/scopeTerminationHandlers">
