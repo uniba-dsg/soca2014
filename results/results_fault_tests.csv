@@ -1,3 +1,4 @@
+test,engine,group,is test successful?,number of failures,number of tests,is deployable?
 SA00001-Notification,active_bpel_v,SA00001-1,1,0,1,1
 SA00001-Notification,bpelg_v,SA00001-1,1,0,1,1
 SA00001-Notification,ode_v,SA00001-1,0,1,1,1

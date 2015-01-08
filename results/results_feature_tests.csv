@@ -1,3 +1,4 @@
+test,engine,group,is test successful?,number of failures,number of tests,is deployable?
 Assign-Copy-DoXslTransform-InvalidSourceFault,active_bpel_v,basic,0,1,1,0
 Assign-Copy-DoXslTransform-SubLanguageExecutionFault,active_bpel_v,basic,0,1,1,1
 Assign-Copy-DoXslTransform-XsltStylesheetNotFound,active_bpel_v,basic,1,0,1,1

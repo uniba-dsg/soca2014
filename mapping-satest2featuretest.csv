@@ -1,3 +1,4 @@
+static analysis test,feature test
 SA00001-Notification,ReceiveReply
 SA00001-SolicitResponse,ReceiveReply
 SA00002-OverloadedOperationNames,ReceiveReply
